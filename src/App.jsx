@@ -80,7 +80,7 @@ function App() {
       if (selectedRecord) {
         // Send PUT request to update the existing record
         response = await axios.put(
-          `https://hostel-maintanance-mongodb-3.onrender.com/hostel/singleshare/${selectedRecord.id}`,
+          `https://hostel-maintanance-mongodb-3.onrender.com/hostel/singleshares/${selectedRecord.id}`,
           formData,
           {
             headers: {
@@ -123,11 +123,13 @@ function App() {
     }
   };
 
-  const submitEditHandler = async () => {
+  const submitEditHandler = async (e) => {
+    e.preventDefault();
+
     const id = selectedRecord._id;
     const data = new FormData();
 
-    // Append existing data1 fields to FormData
+    // Append existing data fields to FormData
     for (const key in data1) {
       data.append(key, data1[key]);
     }
@@ -139,21 +141,28 @@ function App() {
 
     try {
       // Send PUT request to update student record
-      await axios.put(`http://localhost:5000/hostel/singleshares/${id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/singleshares/${id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      alert("doubleshares updated successfully");
+      alert("Room data updated successfully");
     } catch (error) {
       console.error("Error updating Room data:", error);
       alert("Error updating Room data");
     }
   };
+
   const handleDeleteButtonClick = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/hostel/singleshares/${id}`);
+      await axios.delete(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/singleshares/${id}`
+      );
       // After deletion, fetch students again to update the list
       fetchRooms();
     } catch (error) {
