@@ -46,7 +46,7 @@ function App() {
   const fetchRooms = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/hostel/threeshares"
+        "https://hostel-maintanance-mongodb-3.onrender.com/hostel/threeshares"
       );
       setOriginalRecords(response.data);
       setRecords(response.data);
@@ -80,7 +80,7 @@ function App() {
       if (selectedRecord) {
         // Send PUT request to update the existing record
         response = await axios.put(
-          `http://localhost:5000/hostel/threeshare/${selectedRecord.id}`,
+          `https://hostel-maintanance-mongodb-3.onrender.com/hostel/threeshare/${selectedRecord.id}`,
           formData,
           {
             headers: {
@@ -93,7 +93,7 @@ function App() {
         // Send POST request to create a new record
         // eslint-disable-next-line no-unused-vars
         response = await axios.post(
-          "http://localhost:5000/hostel/threeshare",
+          "https://hostel-maintanance-mongodb-3.onrender.com/hostel/threeshare",
           formData,
           {
             headers: {
@@ -117,13 +117,15 @@ function App() {
       });
       setImg(null);
       setSelectedRecord(null);
+      window.location.reload(); // Reload the page
     } catch (err) {
       console.error("Error uploading room data:", err);
       alert("Error uploading room data");
     }
   };
 
-  const submitEditHandler = async () => {
+  const submitEditHandler = async (e) => {
+    e.preventDefault();
     const id = selectedRecord._id;
     const data = new FormData();
 
@@ -139,13 +141,30 @@ function App() {
 
     try {
       // Send PUT request to update student record
-      await axios.put(`http://localhost:5000/hostel/threeshares/${id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/threeshares/${id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       alert("Room updated successfully");
+      setData1({
+        date: "",
+        name: "",
+        status: "",
+        room_number: "",
+        floor_number: "",
+        price: "",
+        room_img: "",
+        due_date: "", // Assuming due_date is part of data1
+      });
+      setImg(null);
+      setSelectedRecord(null);
+      window.location.reload(); // Reload the page
     } catch (error) {
       console.error("Error updating Room data:", error);
       alert("Error updating Room data");
@@ -153,7 +172,9 @@ function App() {
   };
   const handleDeleteButtonClick = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/hostel/threeshares/${id}`);
+      await axios.delete(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/threeshares/${id}`
+      );
       // After deletion, fetch students again to update the list
       fetchRooms();
     } catch (error) {
@@ -332,7 +353,7 @@ function App() {
       cell: (row) =>
         row.room_img ? (
           <img
-            src={`http://localhost:5000/uploads/${row.room_img}`}
+            src={`https://hostel-maintanance-mongodb-3.onrender.com/uploads/${row.room_img}`}
             alt="Profile"
             style={{ width: "50px", height: "50px" }}
           />

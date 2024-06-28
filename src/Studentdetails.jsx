@@ -50,7 +50,9 @@ function App() {
   }, []);
   const fetchStudents = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/hostel/students");
+      const response = await axios.get(
+        "https://hostel-maintanance-mongodb-3.onrender.com/hostel/students"
+      );
       setOriginalRecords(response.data);
       setRecords(response.data);
     } catch (error) {
@@ -89,11 +91,15 @@ function App() {
 
     try {
       // Send POST request to the server
-      await axios.post("http://localhost:5000/hostel/student", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.post(
+        "https://hostel-maintanance-mongodb-3.onrender.com/hostel/student",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       e.preventDefault();
 
       alert("Student added successfully");
@@ -103,7 +109,8 @@ function App() {
     }
   };
 
-  const submitEditHandler = async () => {
+  const submitEditHandler = async (e) => {
+    e.preventDefault();
     const id = selectedrecord._id;
     const data = new FormData();
 
@@ -119,13 +126,30 @@ function App() {
 
     try {
       // Send PUT request to update student record
-      await axios.put(`http://localhost:5000/hostel/student/${id}`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axios.put(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/student/${id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       alert("Student updated successfully");
+      setData1({
+        date: "",
+        name: "",
+        status: "",
+        room_number: "",
+        floor_number: "",
+        price: "",
+        room_img: "",
+        due_date: "", // Assuming due_date is part of data1
+      });
+      setImg(null);
+      setSelectedRecord(null);
+      window.location.reload(); // Reload the page
     } catch (error) {
       console.error("Error updating student data:", error);
       alert("Error updating student data");
@@ -139,7 +163,9 @@ function App() {
 
   const handleDeleteButtonClick = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/hostel/student/${id}`);
+      await axios.delete(
+        `https://hostel-maintanance-mongodb-3.onrender.com/hostel/student/${id}`
+      );
       // After deletion, fetch students again to update the list
       fetchStudents();
     } catch (error) {
@@ -365,7 +391,7 @@ function App() {
       cell: (row) =>
         row.student_img ? (
           <img
-            src={`http://localhost:5000/uploads/${row.student_img}`}
+            src={`https://hostel-maintanance-mongodb-3.onrender.com/uploads/${row.student_img}`}
             alt="Profile"
             style={{ width: "50px", height: "50px" }}
             onClick={() => handleImageClick(row)}

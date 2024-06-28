@@ -117,6 +117,7 @@ function App() {
       });
       setImg(null);
       setSelectedRecord(null);
+      window.location.reload(); // Reload the page
     } catch (err) {
       console.error("Error uploading room data:", err);
       alert("Error uploading room data");
@@ -152,6 +153,19 @@ function App() {
       );
 
       alert("Room data updated successfully");
+      setData1({
+        date: "",
+        name: "",
+        status: "",
+        room_number: "",
+        floor_number: "",
+        price: "",
+        room_img: "",
+        due_date: "", // Assuming due_date is part of data1
+      });
+      setImg(null);
+      setSelectedRecord(null);
+      window.location.reload(); // Reload the page
     } catch (error) {
       console.error("Error updating Room data:", error);
       alert("Error updating Room data");
